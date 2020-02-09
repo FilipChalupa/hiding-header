@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Hiding Header</title>
+		<style>
+			body {
+				margin: 0;
+			}
+			.tracks {
+				display: flex;
+				min-height: 200vh;
+			}
+			.track {
+				flex-grow: 1;
+				box-sizing: border-box;
+			}
+			.track:not(:last-child) {
+				border-right: 1px solid #646464;
+			}
+
+			.headerContent {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #000000;
+				color: #ffffff;
+				padding: 1em;
+				min-height: 4em;
+				box-sizing: border-box;
+			}
+
+			.hidingHeader {
+				position: relative;
+				--hidingHeader-height: auto;
+				--hidingHeader-scrollCap: 0px;
+				--hidingHeader-topOffset: 0px;
+				z-index: 10;
+				height: calc(
+					var(--hidingHeader-scrollCap) + var(--hidingHeader-height) -
+						var(--hidingHeader-topOffset)
+				);
+				max-height: calc(100% - var(--hidingHeader-topOffset));
+				margin-bottom: calc(
+					var(--hidingHeader-topOffset) - var(--hidingHeader-scrollCap)
+				);
+				pointer-events: none;
+			}
+			.hidingHeader-in {
+				position: relative;
+				position: sticky;
+				top: 0;
+			}
+			.hidingHeader-content {
+				pointer-events: auto;
+			}
+
+			.beforeContent {
+				height: 4em;
+				background-color: #545454;
+			}
+			.afterContent {
+				height: 8em;
+				background-color: #545454;
+			}
+			.otherContent {
+				height: 150vh;
+				border-top: 1px solid #646464;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="tracks">
+			<div class="track">
+				<div class="hidingHeader">
+					<div class="hidingHeader-in">
+						<div class="hidingHeader-content">
+							<div class="headerContent">Standard</div>
+						</div>
+					</div>
+				</div>
+				<div class="afterContent"></div>
+			</div>
+			<div class="track">
+				<div class="beforeContent"></div>
+				<div class="hidingHeader">
+					<div class="hidingHeader-in">
+						<div class="hidingHeader-content">
+							<div class="headerContent">Offset</div>
+						</div>
+					</div>
+				</div>
+				<div class="afterContent"></div>
+			</div>
+			<div class="track">
+				<div class="hidingHeader">
+					<div class="hidingHeader-in">
+						<div class="hidingHeader-content">
+							<div class="headerContent">Uninitialized</div>
+						</div>
+					</div>
+				</div>
+				<div class="afterContent"></div>
+			</div>
+		</div>
+		<div class="otherContent"></div>
+		<script type="module">
+			import { hidingHeader } from './dist/index.js'
+
+			const hidingHeaders = document.querySelectorAll('.hidingHeader')
+			hidingHeaders.forEach((container, i) => {
+				if (i === hidingHeaders.length - 1) {
+					// Last uninitialized
+					return
+				}
+
+				hidingHeader(container)
+			})
+			console.log(hidingHeader)
+		</script>
+	</body>
+</html>
