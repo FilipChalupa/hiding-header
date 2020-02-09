@@ -39,7 +39,6 @@ npm install hiding-header
 	height: calc(
 		var(--hidingHeader-scrollCap) + var(--hidingHeader-height) - var(--hidingHeader-topOffset)
 	);
-	max-height: calc(100% - var(--hidingHeader-topOffset));
 	margin-bottom: calc(
 		var(--hidingHeader-topOffset) - var(--hidingHeader-scrollCap)
 	);

@@ -20,8 +20,17 @@ export function hidingHeader(container: HTMLElement) {
 		throw new Error(`Content '${contentSelector}' not found in container.`)
 	}
 
+	const parent = container.parentElement
+	if (parent === null) {
+		throw new Error('Missing parent element.')
+	}
+
 	const getContentHeight = () => {
 		return content.clientHeight
+	}
+
+	const getParentHeight = () => {
+		return parent.clientHeight
 	}
 
 	const getTopOffset = () => {
@@ -29,6 +38,8 @@ export function hidingHeader(container: HTMLElement) {
 	}
 
 	const onScroll = () => {
+		const parentHeight = getParentHeight()
+
 		// Handle top offset
 		const currentTopOffset = getTopOffset() // @TODO: throttle/cache
 		if (topOffset !== currentTopOffset) {
@@ -50,9 +61,10 @@ export function hidingHeader(container: HTMLElement) {
 		const scrollTop = window.scrollY
 		const isScrollingDown = scrollTop > lastScrollTop
 		if (isScrollingDown !== wasScrollingDown) {
-			const scrollCap = isScrollingDown
-				? scrollTop
-				: Math.max(0, scrollTop - contentHeight)
+			const scrollCap = Math.min(
+				parentHeight - contentHeight,
+				isScrollingDown ? scrollTop : Math.max(0, scrollTop - contentHeight)
+			)
 
 			// @TODO: handle changes in scroll direction if header is partially visible
 
