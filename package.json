@@ -1,6 +1,6 @@
 {
 	"name": "hiding-header",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Toggles header visibility.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
