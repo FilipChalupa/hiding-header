@@ -1,0 +1,38 @@
+{
+	"name": "hiding-header",
+	"version": "0.0.0",
+	"description": "Toggles header visibility.",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsc",
+		"prepublish": "npm run build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/FilipChalupa/hiding-header.git"
+	},
+	"keywords": [
+		"header",
+		"scroll",
+		"detection",
+		"typescript"
+	],
+	"author": {
+		"name": "Filip Chalupa",
+		"email": "chalupa.filip@gmail.com",
+		"url": "https://www.npmjs.com/~onset"
+	},
+	"license": "ISC",
+	"devDependencies": {
+		"typescript": "^3.7.5"
+	},
+	"prettier": {
+		"semi": false,
+		"singleQuote": true,
+		"trailingComma": "es5",
+		"useTabs": true,
+		"arrowParens": "always"
+	}
+}
