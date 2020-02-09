@@ -9,7 +9,7 @@ export function hidingHeader(container: HTMLElement) {
 	const scrollCapPropertyName = DEFAULT_SCROLL_CAP_PROPERTY_NAME
 	const topOffsetPropertyName = DEFAULT_TOP_OFFSET_PROPERTY_NAME
 
-	let lastScrollTop = 0
+	let lastScrollTopPosition = 0
 	let contentHeight = 0
 	let wasScrollingDown = true
 	let lastScrollCap = 0
@@ -37,11 +37,16 @@ export function hidingHeader(container: HTMLElement) {
 		return container.offsetTop
 	}
 
+	const getContainerOffset = () => {
+		return container.getBoundingClientRect().top
+	}
+
 	const onScroll = () => {
 		const parentHeight = getParentHeight()
+		const containerOffset = getContainerOffset()
 
 		// Handle top offset
-		const currentTopOffset = getTopOffset() // @TODO: throttle/cache
+		const currentTopOffset = getTopOffset()
 		if (topOffset !== currentTopOffset) {
 			topOffset = currentTopOffset
 			container.style.setProperty(
@@ -51,32 +56,44 @@ export function hidingHeader(container: HTMLElement) {
 		}
 
 		// Handle content height
-		const currentContentHeight = getContentHeight() // @TODO: throttle/cache
+		const currentContentHeight = getContentHeight()
 		if (contentHeight !== currentContentHeight) {
 			contentHeight = currentContentHeight
 			container.style.setProperty(heightPropertyName, `${contentHeight}px`)
 		}
 
 		// Handle scroll cap
-		const scrollTop = window.scrollY
-		const isScrollingDown = scrollTop > lastScrollTop
-		if (isScrollingDown !== wasScrollingDown) {
-			const scrollCap = Math.min(
-				parentHeight - contentHeight,
-				isScrollingDown
-					? lastScrollTop
-					: Math.max(0, lastScrollTop - contentHeight)
-			)
+		const scrollTopPosition = window.scrollY
+		const isScrollingDown = scrollTopPosition > lastScrollTopPosition
 
-			// @TODO: handle changes in scroll direction if header is partially visible
-
-			if (scrollCap !== lastScrollCap) {
-				wasScrollingDown = isScrollingDown
-				container.style.setProperty(scrollCapPropertyName, `${scrollCap}px`)
-				lastScrollCap = scrollCap
-			}
+		// @TODO: fix offset variant on direction change
+		const scrollCap = Math.min(
+			parentHeight - contentHeight,
+			(() => {
+				const scrollCapBottomPosition =
+					lastScrollTopPosition +
+					containerOffset +
+					lastScrollCap +
+					contentHeight
+				if (isScrollingDown) {
+					const newScrollCap = scrollTopPosition - contentHeight
+					return scrollCapBottomPosition < scrollTopPosition
+						? newScrollCap
+						: lastScrollCap
+				} else {
+					const newScrollCap = scrollTopPosition
+					return newScrollCap < scrollCapBottomPosition - contentHeight
+						? newScrollCap
+						: lastScrollCap
+				}
+			})()
+		)
+		if (scrollCap !== lastScrollCap) {
+			container.style.setProperty(scrollCapPropertyName, `${scrollCap}px`)
+			lastScrollCap = scrollCap
 		}
-		lastScrollTop = scrollTop
+
+		lastScrollTopPosition = scrollTopPosition
 	}
 
 	const onResize = onScroll
