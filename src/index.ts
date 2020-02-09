@@ -63,7 +63,9 @@ export function hidingHeader(container: HTMLElement) {
 		if (isScrollingDown !== wasScrollingDown) {
 			const scrollCap = Math.min(
 				parentHeight - contentHeight,
-				isScrollingDown ? scrollTop : Math.max(0, scrollTop - contentHeight)
+				isScrollingDown
+					? lastScrollTop
+					: Math.max(0, lastScrollTop - contentHeight)
 			)
 
 			// @TODO: handle changes in scroll direction if header is partially visible
