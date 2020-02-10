@@ -13,6 +13,7 @@ export function hidingHeader(container: HTMLElement) {
 	let contentHeight = 0
 	let lastScrollCap = 0
 	let topOffset = 0
+	let paused = false
 
 	const content = container.querySelector(contentSelector)
 	if (content === null) {
@@ -65,31 +66,33 @@ export function hidingHeader(container: HTMLElement) {
 		const scrollTopPosition = window.scrollY
 		const isScrollingDown = scrollTopPosition > lastScrollTopPosition
 
-		// @TODO: fix offset variant on direction change
-		const scrollCap = Math.min(
-			parentHeight - contentHeight,
-			(() => {
-				const scrollCapBottomPosition =
-					lastScrollTopPosition +
-					containerOffset +
-					lastScrollCap +
-					contentHeight
-				if (isScrollingDown) {
-					const newScrollCap = scrollTopPosition - contentHeight
-					return scrollCapBottomPosition < scrollTopPosition
-						? newScrollCap
-						: lastScrollCap
-				} else {
-					const newScrollCap = scrollTopPosition
-					return newScrollCap < scrollCapBottomPosition - contentHeight
-						? newScrollCap
-						: lastScrollCap
-				}
-			})()
-		)
-		if (scrollCap !== lastScrollCap) {
-			container.style.setProperty(scrollCapPropertyName, `${scrollCap}px`)
-			lastScrollCap = scrollCap
+		if (!paused) {
+			// @TODO: fix offset variant on direction change
+			const scrollCap = Math.min(
+				parentHeight - contentHeight,
+				(() => {
+					const scrollCapBottomPosition =
+						lastScrollTopPosition +
+						containerOffset +
+						lastScrollCap +
+						contentHeight
+					if (isScrollingDown) {
+						const newScrollCap = scrollTopPosition - contentHeight
+						return scrollCapBottomPosition < scrollTopPosition
+							? newScrollCap
+							: lastScrollCap
+					} else {
+						const newScrollCap = scrollTopPosition
+						return newScrollCap < scrollCapBottomPosition - contentHeight
+							? newScrollCap
+							: lastScrollCap
+					}
+				})()
+			)
+			if (scrollCap !== lastScrollCap) {
+				container.style.setProperty(scrollCapPropertyName, `${scrollCap}px`)
+				lastScrollCap = scrollCap
+			}
 		}
 
 		lastScrollTopPosition = scrollTopPosition
@@ -104,4 +107,20 @@ export function hidingHeader(container: HTMLElement) {
 	}
 
 	initialize()
+
+	const run = () => {
+		paused = false
+	}
+	const pause = () => {
+		paused = true
+	}
+	const isPaused = () => {
+		return paused
+	}
+
+	return {
+		run,
+		pause,
+		isPaused,
+	}
 }
