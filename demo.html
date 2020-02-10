@@ -105,17 +105,23 @@
 		</div>
 		<div class="otherContent"></div>
 		<script type="module">
-			import { hidingHeader } from './dist/index.js'
+			import('./dist/index.js')
+				.catch(() =>
+					import('https://unpkg.com/hiding-header@latest/dist/index.js')
+				)
+				.then((library) => {
+					const { hidingHeader } = library
 
-			const hidingHeaders = document.querySelectorAll('.hidingHeader')
-			hidingHeaders.forEach((container, i) => {
-				if (i === hidingHeaders.length - 1) {
-					// Last uninitialized
-					return
-				}
+					const containers = document.querySelectorAll('.hidingHeader')
+					containers.forEach((container, i) => {
+						if (i === containers.length - 1) {
+							// Last uninitialized
+							return
+						}
 
-				hidingHeader(container)
-			})
+						hidingHeader(container)
+					})
+				})
 		</script>
 	</body>
 </html>
