@@ -1,7 +1,7 @@
 {
 	"name": "hiding-header",
 	"version": "0.0.3",
-	"description": "Toggles header visibility.",
+	"description": "Toggles header visibility on scroll.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
