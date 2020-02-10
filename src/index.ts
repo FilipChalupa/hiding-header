@@ -11,7 +11,6 @@ export function hidingHeader(container: HTMLElement) {
 
 	let lastScrollTopPosition = 0
 	let contentHeight = 0
-	let wasScrollingDown = true
 	let lastScrollCap = 0
 	let topOffset = 0
 
