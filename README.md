@@ -32,15 +32,12 @@ npm install hiding-header
 ```css
 .hidingHeader {
 	position: relative;
-	--hidingHeader-height: auto;
-	--hidingHeader-scrollCap: 0px;
-	--hidingHeader-topOffset: 0px;
+	--hidingHeader-height: 0px;
+	--hidingHeader-bounds-height: 0px;
 	z-index: 10;
-	height: calc(
-		var(--hidingHeader-scrollCap) + var(--hidingHeader-height) - var(--hidingHeader-topOffset)
-	);
+	height: var(--hidingHeader-bounds-height);
 	margin-bottom: calc(
-		var(--hidingHeader-topOffset) - var(--hidingHeader-scrollCap)
+		var(--hidingHeader-height) - var(--hidingHeader-bounds-height)
 	);
 	pointer-events: none;
 }
