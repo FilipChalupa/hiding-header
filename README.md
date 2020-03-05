@@ -61,3 +61,26 @@ import { hidingHeader } from 'hiding-header'
 const container = document.querySelector('#hidingHeader')
 hidingHeader(container)
 ```
+
+### React component (HTML alternative)
+
+```jsx
+import React, { useEffect } from 'react'
+import { hidingHeader } from 'hiding-header'
+
+export const HidingHeader = (props) => {
+	const container = React.useRef()
+
+	useEffect(() => {
+		hidingHeader(container.current)
+	}, [])
+
+	return (
+		<div className="hidingHeader" ref={container}>
+			<div className="hidingHeader-in">
+				<div className="hidingHeader-content">{props.children}</div>
+			</div>
+		</div>
+	)
+}
+```
