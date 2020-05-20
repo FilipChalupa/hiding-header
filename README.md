@@ -2,6 +2,8 @@
 
 Toggles header visibility on scroll. [Demo](https://raw.githack.com/FilipChalupa/hiding-header/master/demo.html).
 
+![UI example](./screencast.gif)
+
 ## Installation
 
 ```bash
