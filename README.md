@@ -19,9 +19,7 @@ npm install hiding-header
 <body>
 	<div class="hidingHeader" id="hidingHeader">
 		<div class="hidingHeader-in">
-			<div class="hidingHeader-content">
-				<!-- Your header -->
-			</div>
+			<!-- Your header -->
 		</div>
 	</div>
 	<!-- … -->
@@ -48,9 +46,6 @@ npm install hiding-header
 	position: relative;
 	position: sticky;
 	top: 0;
-}
-
-.hidingHeader-content {
 	pointer-events: auto;
 }
 ```
@@ -79,9 +74,7 @@ export const HidingHeader = (props) => {
 
 	return (
 		<div className="hidingHeader" ref={container}>
-			<div className="hidingHeader-in">
-				<div className="hidingHeader-content">{props.children}</div>
-			</div>
+			<div className="hidingHeader-in">{props.children}</div>
 		</div>
 	)
 }
