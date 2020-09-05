@@ -2,7 +2,7 @@
 	"name": "hiding-header",
 	"version": "0.1.4",
 	"description": "Toggles header visibility on scroll.",
-	"main": "dist/index.js",
+	"browser": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
