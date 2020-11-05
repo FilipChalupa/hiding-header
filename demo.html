@@ -97,9 +97,9 @@
 		</div>
 		<div class="otherContent"></div>
 		<script type="module">
-			import('./dist/index.js')
-				.catch(() =>
-					import('https://unpkg.com/hiding-header@latest/dist/index.js')
+			import('./dist/index.es.js')
+				.catch((error) =>
+					import('https://unpkg.com/hiding-header@latest/dist/index.es.js')
 				)
 				.then((library) => {
 					const { hidingHeader } = library

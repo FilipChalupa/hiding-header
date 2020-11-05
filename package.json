@@ -2,12 +2,12 @@
 	"name": "hiding-header",
 	"version": "0.1.7",
 	"description": "Toggles header visibility on scroll.",
-	"browser": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"main": "./dist/index.js",
+	"module": "./dist/index.es.js",
+	"types": "./dist/index.d.ts",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "tsc --watch",
-		"build": "tsc",
+		"start": "rollup -c -w",
+		"build": "rollup -c",
 		"prepublish": "npm run build"
 	},
 	"repository": {
@@ -27,7 +27,13 @@
 	},
 	"license": "ISC",
 	"devDependencies": {
-		"typescript": "^3.7.5"
+		"@rollup/plugin-commonjs": "^16.0.0",
+		"@rollup/plugin-node-resolve": "^10.0.0",
+		"prettier": "^2.1.2",
+		"rollup": "^2.33.1",
+		"rollup-plugin-peer-deps-external": "^2.2.4",
+		"rollup-plugin-typescript2": "^0.29.0",
+		"typescript": "^4.0.5"
 	},
 	"prettier": {
 		"semi": false,
@@ -35,5 +41,8 @@
 		"trailingComma": "es5",
 		"useTabs": true,
 		"arrowParens": "always"
-	}
+	},
+	"files": [
+		"/dist/"
+	]
 }
