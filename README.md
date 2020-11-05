@@ -2,7 +2,7 @@
 
 Toggles header visibility on scroll. [Demo](https://filipchalupa.cz/hiding-header/demo).
 
-![UI example](./screencast.gif)
+![UI example](https://raw.githubusercontent.com/FilipChalupa/hiding-header/HEAD/screencast.gif)
 
 ## Installation
 
