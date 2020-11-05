@@ -18,6 +18,6 @@ export default {
 			sourcemap: true,
 		},
 	],
-	external: ['react', 'hiding-header'],
+	external: ['react'],
 	plugins: [peerDepsExternal(), resolve(), commonjs(), typescript()],
 }
