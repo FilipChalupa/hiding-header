@@ -59,23 +59,6 @@ const container = document.querySelector('#hidingHeader')
 hidingHeader(container)
 ```
 
-### React component (HTML alternative)
+### React component
 
-```jsx
-import React, { useEffect } from 'react'
-import { hidingHeader } from 'hiding-header'
-
-export const HidingHeader = (props) => {
-	const container = React.useRef()
-
-	useEffect(() => {
-		hidingHeader(container.current)
-	}, [])
-
-	return (
-		<div className="hidingHeader" ref={container}>
-			<div className="hidingHeader-in">{props.children}</div>
-		</div>
-	)
-}
-```
+For more information see [hiding-header-react](https://www.npmjs.com/package/hiding-header-react).
