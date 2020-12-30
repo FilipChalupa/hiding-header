@@ -59,6 +59,29 @@ const container = document.querySelector('#hidingHeader')
 hidingHeader(container)
 ```
 
+### More
+
+```javascript
+import { hidingHeader } from 'hiding-header'
+
+const container = document.querySelector('#hidingHeader')
+const instance = hidingHeader(container)
+
+// …
+instance.pause() // Pauses scroll listener
+// …
+instance.isPaused() // Check if scroll listener is paused
+// …
+instance.run() // Reactivates scroll listener
+// …
+
+// …
+instance.reveal() // Reveals header if hidden
+// …
+instance.hide() // Hides header if visible
+// …
+```
+
 ### React component
 
 For more information see [hiding-header-react](https://www.npmjs.com/package/hiding-header-react).

@@ -14,6 +14,9 @@
 				margin: 0;
 				font-family: sans-serif;
 			}
+			button {
+				cursor: pointer;
+			}
 			.tracks {
 				display: flex;
 				min-height: 200vh;
@@ -40,6 +43,12 @@
 				padding: 1em;
 				min-height: 4em;
 			}
+			.headerContent-2 {
+				min-height: 5em;
+			}
+			.headerContent-3 {
+				min-height: 6em;
+			}
 			.beforeContent {
 				height: 2em;
 				background-color: #858585dd;
@@ -59,6 +68,16 @@
 					linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
 				background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
 				background-position: center top;
+			}
+			.actions {
+				position: fixed;
+				right: 0;
+				bottom: 0;
+				border: 0 solid black;
+				border-top-width: 1px;
+				border-left-width: 1px;
+				background-color: white;
+				padding: 0.5em;
 			}
 
 			.hidingHeader {
@@ -86,7 +105,7 @@
 			<div class="track">
 				<div class="hidingHeader">
 					<div class="hidingHeader-in">
-						<div class="headerContent">Standard header</div>
+						<div class="headerContent headerContent-1">Standard header</div>
 					</div>
 				</div>
 				<div class="afterContent">Other content<br />Scroll down and up</div>
@@ -96,7 +115,7 @@
 				<div class="hidingHeader">
 					<div class="hidingHeader-in">
 						<div class="hidingHeader-content">
-							<div class="headerContent">Offset header</div>
+							<div class="headerContent headerContent-2">Offset header</div>
 						</div>
 					</div>
 				</div>
@@ -106,7 +125,9 @@
 				<div class="hidingHeader">
 					<div class="hidingHeader-in">
 						<div class="hidingHeader-content">
-							<div class="headerContent">Uninitialized header</div>
+							<div class="headerContent headerContent-3">
+								Uninitialized header
+							</div>
 						</div>
 					</div>
 				</div>
@@ -114,7 +135,14 @@
 			</div>
 		</div>
 		<div class="otherContent"></div>
+		<div class="actions">
+			<button type="button" class="js-reveal">Reveal</button>
+			<button type="button" class="js-hide">Hide</button>
+		</div>
 		<script type="module">
+			const revealButton = document.querySelector('.js-reveal')
+			const hideButton = document.querySelector('.js-hide')
+
 			import('./dist/index.es.js')
 				.catch((error) =>
 					import('https://unpkg.com/hiding-header@latest/dist/index.es.js')
@@ -129,7 +157,10 @@
 							return
 						}
 
-						hidingHeader(container)
+						const instance = hidingHeader(container)
+
+						revealButton.addEventListener('click', instance.reveal)
+						hideButton.addEventListener('click', instance.hide)
 					})
 				})
 		</script>

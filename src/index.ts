@@ -38,6 +38,13 @@ export function hidingHeader(container: HTMLElement) {
 		return getGlobalTopOffset() - (container.parentElement?.offsetTop || 0)
 	}
 
+	const updateBoundsHeight = (boundsHeight: number) => {
+		if (boundsHeight !== lastBoundsHeight) {
+			container.style.setProperty(boundsHeightPropertyName, `${boundsHeight}px`)
+			lastBoundsHeight = boundsHeight
+		}
+	}
+
 	const onScroll = () => {
 		const parentHeight = getParentHeight()
 		const globalTopOffset = getGlobalTopOffset()
@@ -79,13 +86,7 @@ export function hidingHeader(container: HTMLElement) {
 				)
 			)
 
-			if (boundsHeight !== lastBoundsHeight) {
-				container.style.setProperty(
-					boundsHeightPropertyName,
-					`${boundsHeight}px`
-				)
-				lastBoundsHeight = boundsHeight
-			}
+			updateBoundsHeight(boundsHeight)
 		}
 
 		lastScrollTopPosition = scrollTopPosition
@@ -111,9 +112,38 @@ export function hidingHeader(container: HTMLElement) {
 		return paused
 	}
 
+	const reveal = () => {
+		const scrollTopPosition = window.scrollY
+		const contentHeight = getContentHeight()
+		const maxBoundsHeight = getParentHeight() - getRelativeTopOffset()
+		const globalTopOffset = getGlobalTopOffset()
+
+		const boundsHeight = Math.min(
+			maxBoundsHeight,
+			scrollTopPosition - globalTopOffset + contentHeight
+		)
+
+		updateBoundsHeight(boundsHeight)
+	}
+
+	const hide = () => {
+		const scrollTopPosition = window.scrollY
+		const contentHeight = getContentHeight()
+		const globalTopOffset = getGlobalTopOffset()
+
+		const boundsHeight = Math.max(
+			contentHeight,
+			scrollTopPosition - globalTopOffset
+		)
+
+		updateBoundsHeight(boundsHeight)
+	}
+
 	return {
 		run,
 		pause,
 		isPaused,
+		reveal,
+		hide,
 	}
 }
