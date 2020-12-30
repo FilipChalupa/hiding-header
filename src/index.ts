@@ -58,8 +58,13 @@ export function hidingHeader(
 		}
 	}
 
+	const capBoundsHeight = (rawBoundsHeight: number) =>
+		Math.min(
+			getParentHeight() - getRelativeTopOffset(),
+			Math.max(getContentHeight(), rawBoundsHeight)
+		)
+
 	const onScroll = () => {
-		const parentHeight = getParentHeight()
 		const globalTopOffset = getGlobalTopOffset()
 
 		// Handle content height
@@ -74,29 +79,23 @@ export function hidingHeader(
 		const isScrollingDown = scrollTopPosition > lastScrollTopPosition
 
 		if (!paused) {
-			const maxBoundsHeight = parentHeight - getRelativeTopOffset()
-
-			const boundsHeight = Math.min(
-				maxBoundsHeight,
-				Math.max(
-					contentHeight,
-					(() => {
-						if (isScrollingDown) {
-							const newBoundsHeight = scrollTopPosition - globalTopOffset
-							if (lastBoundsHeight < newBoundsHeight) {
-								return newBoundsHeight
-							}
-							return lastBoundsHeight
-						} else {
-							const newBoundsHeight =
-								scrollTopPosition - globalTopOffset + contentHeight
-							if (lastBoundsHeight > newBoundsHeight) {
-								return newBoundsHeight
-							}
-							return lastBoundsHeight
+			const boundsHeight = capBoundsHeight(
+				(() => {
+					if (isScrollingDown) {
+						const newBoundsHeight = scrollTopPosition - globalTopOffset
+						if (lastBoundsHeight < newBoundsHeight) {
+							return newBoundsHeight
 						}
-					})()
-				)
+						return lastBoundsHeight
+					} else {
+						const newBoundsHeight =
+							scrollTopPosition - globalTopOffset + contentHeight
+						if (lastBoundsHeight > newBoundsHeight) {
+							return newBoundsHeight
+						}
+						return lastBoundsHeight
+					}
+				})()
 			)
 
 			updateBoundsHeight(boundsHeight)
@@ -128,11 +127,9 @@ export function hidingHeader(
 	const reveal = () => {
 		const scrollTopPosition = window.scrollY
 		const contentHeight = getContentHeight()
-		const maxBoundsHeight = getParentHeight() - getRelativeTopOffset()
 		const globalTopOffset = getGlobalTopOffset()
 
-		const boundsHeight = Math.min(
-			maxBoundsHeight,
+		const boundsHeight = capBoundsHeight(
 			scrollTopPosition - globalTopOffset + contentHeight
 		)
 
@@ -142,13 +139,9 @@ export function hidingHeader(
 
 	const hide = () => {
 		const scrollTopPosition = window.scrollY
-		const contentHeight = getContentHeight()
 		const globalTopOffset = getGlobalTopOffset()
 
-		const boundsHeight = Math.max(
-			contentHeight,
-			scrollTopPosition - globalTopOffset
-		)
+		const boundsHeight = capBoundsHeight(scrollTopPosition - globalTopOffset)
 
 		animateOffset(lastBoundsHeight - boundsHeight)
 		updateBoundsHeight(boundsHeight)
