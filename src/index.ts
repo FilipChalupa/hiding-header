@@ -2,10 +2,13 @@ export function hidingHeader(container: HTMLElement) {
 	const DEFAULT_CONTENT_SELECTOR = '*'
 	const DEFAULT_HEIGHT_PROPERTY_NAME = '--hidingHeader-height'
 	const DEFAULT_BOUNDS_HEIGHT_PROPERTY_NAME = '--hidingHeader-bounds-height'
+	const DEFAULT_ANIMATION_OFFSET_PROPERTY_NAME =
+		'--hidingHeader-animation-offset'
 
 	const contentSelector = DEFAULT_CONTENT_SELECTOR
 	const heightPropertyName = DEFAULT_HEIGHT_PROPERTY_NAME
 	const boundsHeightPropertyName = DEFAULT_BOUNDS_HEIGHT_PROPERTY_NAME
+	const animationOffsetPropertyName = DEFAULT_ANIMATION_OFFSET_PROPERTY_NAME
 
 	let lastScrollTopPosition = 0
 	let lastContentHeight = 0
@@ -13,7 +16,7 @@ export function hidingHeader(container: HTMLElement) {
 	let lastBoundsHeight = 0
 
 	const content = container.querySelector(contentSelector)
-	if (content === null) {
+	if (!(content instanceof HTMLElement)) {
 		throw new Error(`Content '${contentSelector}' not found in container.`)
 	}
 
@@ -36,6 +39,19 @@ export function hidingHeader(container: HTMLElement) {
 
 	const getRelativeTopOffset = () => {
 		return getGlobalTopOffset() - (container.parentElement?.offsetTop || 0)
+	}
+
+	const animateOffset = (initialOffset: number) => {
+		content.style.transition = 'none'
+		container.style.setProperty(
+			animationOffsetPropertyName,
+			`${initialOffset}px`
+		)
+
+		content.offsetHeight // Trigger transition
+
+		content.style.transition = ''
+		container.style.setProperty(animationOffsetPropertyName, '0px')
 	}
 
 	const updateBoundsHeight = (boundsHeight: number) => {
@@ -123,6 +139,7 @@ export function hidingHeader(container: HTMLElement) {
 			scrollTopPosition - globalTopOffset + contentHeight
 		)
 
+		animateOffset(lastBoundsHeight - boundsHeight)
 		updateBoundsHeight(boundsHeight)
 	}
 
@@ -136,6 +153,7 @@ export function hidingHeader(container: HTMLElement) {
 			scrollTopPosition - globalTopOffset
 		)
 
+		animateOffset(lastBoundsHeight - boundsHeight)
 		updateBoundsHeight(boundsHeight)
 	}
 
