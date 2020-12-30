@@ -5,8 +5,14 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<title>Hiding Header</title>
 		<style>
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+			}
 			body {
 				margin: 0;
+				font-family: sans-serif;
 			}
 			.tracks {
 				display: flex;
@@ -14,10 +20,16 @@
 			}
 			.track {
 				flex-grow: 1;
-				box-sizing: border-box;
+				background-color: rgb(191, 221, 255);
+				background-image: linear-gradient(white 2px, transparent 2px),
+					linear-gradient(90deg, white 2px, transparent 2px),
+					linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+					linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+				background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+				background-position: center top;
 			}
 			.track:not(:last-child) {
-				border-right: 1px solid #646464;
+				border-right: 3px solid #000c27;
 			}
 
 			.headerContent {
@@ -28,7 +40,6 @@
 				color: #ffffff;
 				padding: 1em;
 				min-height: 4em;
-				box-sizing: border-box;
 			}
 
 			.hidingHeader {
@@ -51,15 +62,23 @@
 
 			.beforeContent {
 				height: 2em;
-				background-color: #545454;
+				background-color: #858585dd;
 			}
 			.afterContent {
 				height: 8em;
-				background-color: #545454;
+				background-color: #e2e2e2dd;
+				padding: 1em;
 			}
 			.otherContent {
 				height: 150vh;
-				border-top: 1px solid #646464;
+				border-top: 3px solid #000c27;
+				background-color: rgb(255, 227, 191);
+				background-image: linear-gradient(white 2px, transparent 2px),
+					linear-gradient(90deg, white 2px, transparent 2px),
+					linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+					linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+				background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+				background-position: center top;
 			}
 		</style>
 	</head>
@@ -68,31 +87,31 @@
 			<div class="track">
 				<div class="hidingHeader">
 					<div class="hidingHeader-in">
-						<div class="headerContent">Standard</div>
+						<div class="headerContent">Standard header</div>
 					</div>
 				</div>
-				<div class="afterContent"></div>
+				<div class="afterContent">Other content<br />Scroll down and up</div>
 			</div>
 			<div class="track">
 				<div class="beforeContent"></div>
 				<div class="hidingHeader">
 					<div class="hidingHeader-in">
 						<div class="hidingHeader-content">
-							<div class="headerContent">Offset</div>
+							<div class="headerContent">Offset header</div>
 						</div>
 					</div>
 				</div>
-				<div class="afterContent"></div>
+				<div class="afterContent">Other content</div>
 			</div>
 			<div class="track">
 				<div class="hidingHeader">
 					<div class="hidingHeader-in">
 						<div class="hidingHeader-content">
-							<div class="headerContent">Uninitialized</div>
+							<div class="headerContent">Uninitialized header</div>
 						</div>
 					</div>
 				</div>
-				<div class="afterContent"></div>
+				<div class="afterContent">Other content</div>
 			</div>
 		</div>
 		<div class="otherContent"></div>
