@@ -1,15 +1,12 @@
-export function hidingHeader(container: HTMLElement) {
-	const DEFAULT_CONTENT_SELECTOR = '*'
-	const DEFAULT_HEIGHT_PROPERTY_NAME = '--hidingHeader-height'
-	const DEFAULT_BOUNDS_HEIGHT_PROPERTY_NAME = '--hidingHeader-bounds-height'
-	const DEFAULT_ANIMATION_OFFSET_PROPERTY_NAME =
-		'--hidingHeader-animation-offset'
-
-	const contentSelector = DEFAULT_CONTENT_SELECTOR
-	const heightPropertyName = DEFAULT_HEIGHT_PROPERTY_NAME
-	const boundsHeightPropertyName = DEFAULT_BOUNDS_HEIGHT_PROPERTY_NAME
-	const animationOffsetPropertyName = DEFAULT_ANIMATION_OFFSET_PROPERTY_NAME
-
+export function hidingHeader(
+	container: HTMLElement,
+	{
+		contentSelector = '*',
+		heightPropertyName = '--hidingHeader-height',
+		boundsHeightPropertyName = '--hidingHeader-bounds-height',
+		animationOffsetPropertyName = '--hidingHeader-animation-offset',
+	} = {}
+) {
 	let lastScrollTopPosition = 0
 	let lastContentHeight = 0
 	let paused = false
