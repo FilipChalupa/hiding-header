@@ -31,7 +31,6 @@
 			.track:not(:last-child) {
 				border-right: 3px solid #000c27;
 			}
-
 			.headerContent {
 				display: flex;
 				justify-content: center;
@@ -41,25 +40,6 @@
 				padding: 1em;
 				min-height: 4em;
 			}
-
-			.hidingHeader {
-				position: relative;
-				--hidingHeader-height: 0px;
-				--hidingHeader-bounds-height: 0px;
-				z-index: 10;
-				height: var(--hidingHeader-bounds-height);
-				margin-bottom: calc(
-					var(--hidingHeader-height) - var(--hidingHeader-bounds-height)
-				);
-				pointer-events: none;
-			}
-			.hidingHeader-in {
-				position: relative;
-				position: sticky;
-				top: 0;
-				pointer-events: auto;
-			}
-
 			.beforeContent {
 				height: 2em;
 				background-color: #858585dd;
@@ -79,6 +59,25 @@
 					linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
 				background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
 				background-position: center top;
+			}
+
+			.hidingHeader {
+				position: relative;
+				--hidingHeader-height: auto;
+				--hidingHeader-bounds-height: auto;
+				z-index: 10;
+				height: var(--hidingHeader-bounds-height);
+				margin-bottom: calc(
+					var(--hidingHeader-height) - var(--hidingHeader-bounds-height)
+				);
+				pointer-events: none;
+			}
+
+			.hidingHeader-in {
+				position: relative;
+				position: sticky;
+				top: 0;
+				pointer-events: auto;
 			}
 		</style>
 	</head>
