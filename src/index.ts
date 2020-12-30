@@ -39,6 +39,10 @@ export function hidingHeader(
 	}
 
 	const animateOffset = (initialOffset: number) => {
+		if (initialOffset === 0) {
+			return // Nothing to animate
+		}
+
 		content.style.transition = 'none'
 		container.style.setProperty(
 			animationOffsetPropertyName,
