@@ -88,3 +88,7 @@ instance.hide() // Hides header if visible
 ### React component
 
 For more information see [hiding-header-react](https://www.npmjs.com/package/hiding-header-react).
+
+### Web component
+
+For more information see [hiding-header-webcomponent](https://www.npmjs.com/package/hiding-header-webcomponent).
