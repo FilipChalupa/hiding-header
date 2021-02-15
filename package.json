@@ -29,6 +29,7 @@
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^16.0.0",
 		"@rollup/plugin-node-resolve": "^10.0.0",
+		"@types/resize-observer-browser": "^0.1.5",
 		"prettier": "^2.1.2",
 		"rollup": "^2.33.1",
 		"rollup-plugin-cleaner": "^1.0.0",

@@ -5,22 +5,44 @@ export function hidingHeader(
 		boundsHeightPropertyName = '--hidingHeader-bounds-height',
 		animationOffsetPropertyName = '--hidingHeader-animation-offset',
 		snap = true,
+		onHeightChange = (height: number) => {},
+		onVisibleHeightChange = (height: number) => {},
 	} = {}
 ) {
+	const content = container.querySelector('*') as HTMLDivElement
+
 	let lastScrollTopPosition = 0
-	let lastContentHeight = 0
+
+	let contentHeight = (() => {
+		const getContentHeight = () => content.clientHeight
+		const setContentHeightProperty = (height: number) => {
+			container.style.setProperty(heightPropertyName, `${height}px`)
+		}
+
+		const resizeObserver = new ResizeObserver(() => {
+			const newContentHeight = getContentHeight()
+			if (contentHeight !== newContentHeight) {
+				contentHeight = newContentHeight
+				setContentHeightProperty(contentHeight)
+				onScroll()
+				onHeightChange(contentHeight)
+			}
+		})
+		resizeObserver.observe(content)
+
+		const initialHeight = getContentHeight()
+		setContentHeightProperty(initialHeight)
+		return initialHeight
+	})()
+
+	let visibleHeight = contentHeight
+
 	let paused = false
 	let lastBoundsHeight = 0
 	let pointersDown = 0
-
-	const content = container.querySelector('*') as HTMLDivElement
 	const parent = container.parentElement
 	if (parent === null) {
 		throw new Error('Missing parent element.')
-	}
-
-	const getContentHeight = () => {
-		return content.clientHeight
 	}
 
 	const getParentHeight = () => {
@@ -62,25 +84,12 @@ export function hidingHeader(
 	const capBoundsHeight = (rawBoundsHeight: number) =>
 		Math.min(
 			getParentHeight() - getRelativeTopOffset(),
-			Math.max(getContentHeight(), rawBoundsHeight)
+			Math.max(contentHeight, rawBoundsHeight)
 		)
 
-	const getHeightInsideViewport = () => {
-		const contentHeight = getContentHeight()
-		const { top } = content.getBoundingClientRect()
-
-		return Math.max(0, Math.min(contentHeight + top, contentHeight))
-	}
-
 	const snapIfPossible = () => {
-		const contentHeight = getContentHeight()
-		const heightInsideViewport = getHeightInsideViewport()
-		if (
-			snap &&
-			heightInsideViewport !== 0 &&
-			heightInsideViewport !== contentHeight
-		) {
-			if (heightInsideViewport < contentHeight / 2) {
+		if (snap && visibleHeight !== 0 && visibleHeight !== contentHeight) {
+			if (visibleHeight < contentHeight / 2) {
 				hide()
 			} else {
 				reveal()
@@ -101,15 +110,47 @@ export function hidingHeader(
 		}
 	})()
 
+	const updateVisibleHeight = () => {
+		visibleHeight = (() => {
+			const { top } = content.getBoundingClientRect()
+			const newVisibleHeight = Math.max(
+				0,
+				Math.min(contentHeight + top, contentHeight)
+			)
+
+			if (visibleHeight !== newVisibleHeight) {
+				onVisibleHeightChange(newVisibleHeight)
+			}
+
+			return newVisibleHeight
+		})()
+	}
+
+	const onTransitioning = () => {
+		updateVisibleHeight()
+	}
+
+	;(() => {
+		let running = false
+		const loop = () => {
+			if (!running) {
+				return
+			}
+			onTransitioning()
+			requestAnimationFrame(loop)
+		}
+		content.addEventListener('transitionstart', () => {
+			running = true
+			loop()
+		})
+		content.addEventListener('transitionend', () => {
+			running = false
+			onTransitioning()
+		})
+	})()
+
 	const onScroll = () => {
 		const globalTopOffset = getGlobalTopOffset()
-
-		// Handle content height
-		const contentHeight = getContentHeight()
-		if (lastContentHeight !== contentHeight) {
-			lastContentHeight = contentHeight
-			container.style.setProperty(heightPropertyName, `${lastContentHeight}px`)
-		}
 
 		// Handle bounds height
 		const scrollTopPosition = window.scrollY
@@ -138,6 +179,8 @@ export function hidingHeader(
 			updateBoundsHeight(boundsHeight)
 
 			onScrollStopDebounced()
+
+			updateVisibleHeight()
 		}
 
 		lastScrollTopPosition = scrollTopPosition
@@ -175,7 +218,7 @@ export function hidingHeader(
 
 	const reveal = () => {
 		const scrollTopPosition = window.scrollY
-		const contentHeight = getContentHeight()
+
 		const globalTopOffset = getGlobalTopOffset()
 
 		const boundsHeight = capBoundsHeight(
@@ -196,11 +239,16 @@ export function hidingHeader(
 		updateBoundsHeight(boundsHeight)
 	}
 
+	const getHeight = () => contentHeight
+	const getVisibleHeight = () => visibleHeight
+
 	return {
 		run,
 		pause,
 		isPaused,
 		reveal,
 		hide,
+		getHeight,
+		getVisibleHeight,
 	}
 }
