@@ -1,7 +1,6 @@
 export function hidingHeader(
 	container: HTMLElement,
 	{
-		contentSelector = '*',
 		heightPropertyName = '--hidingHeader-height',
 		boundsHeightPropertyName = '--hidingHeader-bounds-height',
 		animationOffsetPropertyName = '--hidingHeader-animation-offset',
@@ -14,11 +13,7 @@ export function hidingHeader(
 	let lastBoundsHeight = 0
 	let pointersDown = 0
 
-	const content = container.querySelector(contentSelector)
-	if (!(content instanceof HTMLElement)) {
-		throw new Error(`Content '${contentSelector}' not found in container.`)
-	}
-
+	const content = container.querySelector('*') as HTMLDivElement
 	const parent = container.parentElement
 	if (parent === null) {
 		throw new Error('Missing parent element.')
