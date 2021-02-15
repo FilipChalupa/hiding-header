@@ -1,5 +1,6 @@
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
+import copy from 'rollup-plugin-copy'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import typescript from 'rollup-plugin-typescript2'
 import packageJson from './package.json'
@@ -19,5 +20,13 @@ export default {
 		},
 	],
 	external: ['react'],
-	plugins: [peerDepsExternal(), resolve(), commonjs(), typescript()],
+	plugins: [
+		peerDepsExternal(),
+		resolve(),
+		commonjs(),
+		typescript(),
+		copy({
+			targets: [{ src: './src/style.css', dest: './dist' }],
+		}),
+	],
 }
