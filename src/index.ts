@@ -5,12 +5,14 @@ export function hidingHeader(
 		heightPropertyName = '--hidingHeader-height',
 		boundsHeightPropertyName = '--hidingHeader-bounds-height',
 		animationOffsetPropertyName = '--hidingHeader-animation-offset',
+		snap = true,
 	} = {}
 ) {
 	let lastScrollTopPosition = 0
 	let lastContentHeight = 0
 	let paused = false
 	let lastBoundsHeight = 0
+	let pointersDown = 0
 
 	const content = container.querySelector(contentSelector)
 	if (!(content instanceof HTMLElement)) {
@@ -68,6 +70,42 @@ export function hidingHeader(
 			Math.max(getContentHeight(), rawBoundsHeight)
 		)
 
+	const getHeightInsideViewport = () => {
+		const contentHeight = getContentHeight()
+		const { top } = content.getBoundingClientRect()
+
+		return Math.max(0, Math.min(contentHeight + top, contentHeight))
+	}
+
+	const snapIfPossible = () => {
+		const contentHeight = getContentHeight()
+		const heightInsideViewport = getHeightInsideViewport()
+		if (
+			snap &&
+			heightInsideViewport !== 0 &&
+			heightInsideViewport !== contentHeight
+		) {
+			if (heightInsideViewport < contentHeight / 2) {
+				hide()
+			} else {
+				reveal()
+			}
+		}
+	}
+
+	const onScrollStopDebounced = (() => {
+		let timer: number
+
+		return () => {
+			window.clearTimeout(timer)
+			timer = window.setTimeout(() => {
+				if (snap && pointersDown === 0) {
+					snapIfPossible()
+				}
+			}, 100)
+		}
+	})()
+
 	const onScroll = () => {
 		const globalTopOffset = getGlobalTopOffset()
 
@@ -103,12 +141,24 @@ export function hidingHeader(
 			)
 
 			updateBoundsHeight(boundsHeight)
+
+			onScrollStopDebounced()
 		}
 
 		lastScrollTopPosition = scrollTopPosition
 	}
 
 	const onResize = onScroll
+
+	document.addEventListener('pointerdown', () => {
+		pointersDown++
+		onScroll()
+	})
+
+	document.addEventListener('pointerup', () => {
+		pointersDown--
+		onScroll()
+	})
 
 	const initialize = () => {
 		window.addEventListener('scroll', onScroll)

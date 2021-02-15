@@ -46,7 +46,13 @@ hidingHeader(container)
 import { hidingHeader } from 'hiding-header'
 
 const container = document.querySelector('#hidingHeader')
-const instance = hidingHeader(container)
+const instance = hidingHeader(container, {
+		contentSelector = '*',
+		heightPropertyName = '--hidingHeader-height',
+		boundsHeightPropertyName = '--hidingHeader-bounds-height',
+		animationOffsetPropertyName = '--hidingHeader-animation-offset',
+		snap = true,
+})
 
 // …
 instance.pause() // Pauses scroll listener
