@@ -1,9 +1,13 @@
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
+import cleaner from 'rollup-plugin-cleaner'
 import copy from 'rollup-plugin-copy'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import typescript from 'rollup-plugin-typescript2'
 import packageJson from './package.json'
+
+const production = !process.env.ROLLUP_WATCH
+const sourcemap = !production
 
 export default {
 	input: './src/index.ts',
@@ -11,16 +15,19 @@ export default {
 		{
 			file: packageJson.main,
 			format: 'cjs',
-			sourcemap: true,
+			sourcemap,
 		},
 		{
 			file: packageJson.module,
 			format: 'esm',
-			sourcemap: true,
+			sourcemap,
 		},
 	],
 	external: ['react'],
 	plugins: [
+		cleaner({
+			targets: ['./dist/'],
+		}),
 		peerDepsExternal(),
 		resolve(),
 		commonjs(),
