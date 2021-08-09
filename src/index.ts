@@ -1,3 +1,12 @@
+export interface HidingHeaderOptions {
+	heightPropertyName?: string
+	boundsHeightPropertyName?: string
+	animationOffsetPropertyName?: string
+	snap?: boolean
+	onHeightChange?: (height: number) => void
+	onVisibleHeightChange?: (height: number) => void
+}
+
 export function hidingHeader(
 	container: HTMLElement,
 	{
@@ -5,9 +14,9 @@ export function hidingHeader(
 		boundsHeightPropertyName = '--hidingHeader-bounds-height',
 		animationOffsetPropertyName = '--hidingHeader-animation-offset',
 		snap = true,
-		onHeightChange = (height: number) => {},
-		onVisibleHeightChange = (height: number) => {},
-	} = {}
+		onHeightChange = () => {},
+		onVisibleHeightChange = () => {},
+	}: HidingHeaderOptions = {}
 ) {
 	const content = container.querySelector('*') as HTMLDivElement
 
