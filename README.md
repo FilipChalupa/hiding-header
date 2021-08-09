@@ -70,6 +70,10 @@ instance.hide() // Hides header if visible
 instance.getHeight() // Returns content height in pixels
 instance.getVisibleHeight() // Returns height of visible content area in pixels
 // …
+
+// …
+instance.isHome() // Returns true if element is at initial position, e.g. user has not yet scrolled
+// …
 ```
 
 ### React component

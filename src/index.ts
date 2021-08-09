@@ -224,6 +224,7 @@ export function hidingHeader(
 	const isPaused = () => {
 		return paused
 	}
+	const isHome = () => contentHeight >= lastBoundsHeight
 
 	const reveal = () => {
 		const scrollTopPosition = window.scrollY
@@ -255,6 +256,7 @@ export function hidingHeader(
 		run,
 		pause,
 		isPaused,
+		isHome,
 		reveal,
 		hide,
 		getHeight,
