@@ -47,13 +47,13 @@ import { hidingHeader } from 'hiding-header'
 
 const container = document.querySelector('#hidingHeader')
 const instance = hidingHeader(container, {
-		heightPropertyName = '--hidingHeader-height',
-		boundsHeightPropertyName = '--hidingHeader-bounds-height',
-		animationOffsetPropertyName = '--hidingHeader-animation-offset',
-		snap = true, // Reveal or hide header if user stops scrolling in middle
-		onHeightChange = (height: number) => {}, // When content height changes
-		onVisibleHeightChange = (height: number) => {}, // When part of header is revealed
-		onHomeChange = (isHome: boolean) => {}, // When returns to home
+	heightPropertyName: '--hidingHeader-height',
+	boundsHeightPropertyName: '--hidingHeader-bounds-height',
+	animationOffsetPropertyName: '--hidingHeader-animation-offset',
+	snap: true, // Reveal or hide header if user stops scrolling in middle
+	onHeightChange: (height: number) => {}, // When content height changes
+	onVisibleHeightChange: (height: number) => {}, // When part of header is revealed
+	onHomeChange: (isHome: boolean) => {}, // When returns to home
 })
 
 // …
