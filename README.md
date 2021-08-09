@@ -51,8 +51,9 @@ const instance = hidingHeader(container, {
 		boundsHeightPropertyName = '--hidingHeader-bounds-height',
 		animationOffsetPropertyName = '--hidingHeader-animation-offset',
 		snap = true, // Reveal or hide header if user stops scrolling in middle
-		onHeightChange = (height: number) => {}, // When content height changes
-		onVisibleHeightChange = (height: number) => {}, // When part of header is revealed
+		onHeightChange = (height: number) => void, // When content height changes
+		onVisibleHeightChange = (height: number) => void, // When part of header is revealed
+		onHomeChange: (isHome: boolean) => void, // When returns to home
 })
 
 // …

@@ -5,6 +5,7 @@ export interface HidingHeaderOptions {
 	snap?: boolean
 	onHeightChange?: (height: number) => void
 	onVisibleHeightChange?: (height: number) => void
+	onHomeChange?: (isHome: boolean) => void
 }
 
 export function hidingHeader(
@@ -16,6 +17,7 @@ export function hidingHeader(
 		snap = true,
 		onHeightChange = () => {},
 		onVisibleHeightChange = () => {},
+		onHomeChange = () => {},
 	}: HidingHeaderOptions = {}
 ) {
 	const content = container.querySelector('*') as HTMLDivElement
@@ -47,6 +49,7 @@ export function hidingHeader(
 	let visibleHeight = contentHeight
 
 	let paused = false
+	let home = true
 	let lastBoundsHeight = 0
 	let pointersDown = 0
 	const parent = container.parentElement
@@ -135,6 +138,18 @@ export function hidingHeader(
 		})()
 	}
 
+	const updateHome = () => {
+		home = (() => {
+			const newHome = contentHeight >= lastBoundsHeight
+
+			if (home !== newHome) {
+				onHomeChange(newHome)
+			}
+
+			return newHome
+		})()
+	}
+
 	const onTransitioning = () => {
 		updateVisibleHeight()
 	}
@@ -190,6 +205,8 @@ export function hidingHeader(
 			onScrollStopDebounced()
 
 			updateVisibleHeight()
+
+			updateHome()
 		}
 
 		lastScrollTopPosition = scrollTopPosition
@@ -224,7 +241,7 @@ export function hidingHeader(
 	const isPaused = () => {
 		return paused
 	}
-	const isHome = () => contentHeight >= lastBoundsHeight
+	const isHome = () => home
 
 	const reveal = () => {
 		const scrollTopPosition = window.scrollY
