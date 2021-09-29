@@ -1,171 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<title>Hiding Header</title>
-		<style>
-			*,
-			*::before,
-			*::after {
-				box-sizing: border-box;
-			}
-			body {
-				margin: 0;
-				font-family: sans-serif;
-			}
-			button {
-				cursor: pointer;
-			}
-			.tracks {
-				display: flex;
-				min-height: 200vh;
-			}
-			.track {
-				flex-grow: 1;
-				background-color: rgb(191, 221, 255);
-				background-image: linear-gradient(white 2px, transparent 2px),
-					linear-gradient(90deg, white 2px, transparent 2px),
-					linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
-					linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
-				background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-				background-position: center top;
-			}
-			.track:not(:last-child) {
-				border-right: 3px solid #000c27;
-			}
-			.headerContent {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				background-color: #000000;
-				color: #ffffff;
-				padding: 1em;
-				min-height: 4em;
-			}
-			.headerContent-2 {
-				min-height: 5em;
-			}
-			.headerContent-3 {
-				min-height: 6em;
-			}
-			.beforeContent {
-				height: 2em;
-				background-color: #858585dd;
-			}
-			.afterContent {
-				height: 8em;
-				background-color: #e2e2e2dd;
-				padding: 1em;
-			}
-			.otherContent {
-				height: 150vh;
-				border-top: 3px solid #000c27;
-				background-color: rgb(255, 227, 191);
-				background-image: linear-gradient(white 2px, transparent 2px),
-					linear-gradient(90deg, white 2px, transparent 2px),
-					linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
-					linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
-				background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-				background-position: center top;
-			}
-			.actions {
-				position: fixed;
-				right: 0;
-				bottom: 0;
-				border: 0 solid black;
-				border-top-width: 1px;
-				border-left-width: 1px;
-				background-color: white;
-				padding: 0.5em;
-			}
 
-			.hidingHeader {
-				position: relative;
-				--hidingHeader-height: auto;
-				--hidingHeader-bounds-height: auto;
-				--hidingHeader-animation-offset: 0px;
-				z-index: 10;
-				height: var(--hidingHeader-bounds-height);
-				margin-bottom: calc(
-					var(--hidingHeader-height) - var(--hidingHeader-bounds-height)
-				);
-				pointer-events: none;
-			}
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Hiding Header</title>
+	<style>
+		@import url(src/style.css);
 
-			.hidingHeader-in {
-				position: relative;
-				position: sticky;
-				top: 0;
-				pointer-events: auto;
-				transition: transform 0.2s;
-				transform: translateY(var(--hidingHeader-animation-offset));
-			}
-		</style>
-	</head>
-	<body>
-		<div class="tracks">
-			<div class="track">
-				<div class="hidingHeader">
-					<div class="hidingHeader-in">
-						<div class="headerContent headerContent-1">Standard header</div>
-					</div>
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: sans-serif;
+		}
+
+		button {
+			cursor: pointer;
+		}
+
+		.tracks {
+			display: flex;
+			min-height: 200vh;
+		}
+
+		.track,
+		.scrollableContainer::after {
+			flex-grow: 1;
+			background-color: rgb(191, 221, 255);
+			background-image: linear-gradient(white 2px, transparent 2px),
+				linear-gradient(90deg, white 2px, transparent 2px),
+				linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+			background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+			background-position: center top;
+		}
+
+		.track:not(:last-child) {
+			border-right: 3px solid #000c27;
+		}
+
+		.scrollableContainer {
+			position: relative;
+			height: 50vh;
+			margin-top: 10vh;
+			overflow-y: scroll;
+		}
+
+		.scrollableContainer::after {
+			content: '';
+			display: block;
+			height: 100vh;
+			background-color: rgb(204, 228, 118);
+		}
+
+		.headerContent {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: #000000;
+			color: #ffffff;
+			padding: 1em;
+			min-height: 4em;
+		}
+
+		.headerContent-2 {
+			min-height: 5em;
+		}
+
+		.headerContent-4 {
+			min-height: 6em;
+		}
+
+		.beforeContent {
+			height: 2em;
+			background-color: #858585dd;
+		}
+
+		.afterContent {
+			height: 8em;
+			background-color: #e2e2e2dd;
+			padding: 1em;
+		}
+
+		.otherContent {
+			height: 150vh;
+			border-top: 3px solid #000c27;
+			background-color: rgb(255, 227, 191);
+			background-image: linear-gradient(white 2px, transparent 2px),
+				linear-gradient(90deg, white 2px, transparent 2px),
+				linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+			background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+			background-position: center top;
+		}
+
+		.actions {
+			position: fixed;
+			right: 0;
+			bottom: 0;
+			border: 0 solid black;
+			border-top-width: 1px;
+			border-left-width: 1px;
+			background-color: white;
+			padding: 0.5em;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="tracks">
+		<div class="track">
+			<div class="hidingHeader">
+				<div class="hidingHeader-in">
+					<div class="headerContent headerContent-1">Standard header</div>
 				</div>
-				<div class="afterContent">Other content<br />Scroll down and up</div>
 			</div>
-			<div class="track">
-				<div class="beforeContent"></div>
-				<div class="hidingHeader">
-					<div class="hidingHeader-in">
-						<div class="hidingHeader-content">
-							<div class="headerContent headerContent-2">Offset header</div>
-						</div>
-					</div>
+			<div class="afterContent">Other content<br />Scroll down and up</div>
+		</div>
+		<div class="track">
+			<div class="beforeContent"></div>
+			<div class="hidingHeader">
+				<div class="hidingHeader-in">
+					<div class="headerContent headerContent-2">Offset header</div>
 				</div>
-				<div class="afterContent">Other content</div>
 			</div>
-			<div class="track">
+			<div class="afterContent">Other content</div>
+		</div>
+		<div class="track">
+			<div class="scrollableContainer">
 				<div class="hidingHeader">
 					<div class="hidingHeader-in">
-						<div class="hidingHeader-content">
-							<div class="headerContent headerContent-3">
-								Uninitialized header
-							</div>
-						</div>
+						<div class="headerContent headerContent-3">Inside</div>
 					</div>
 				</div>
 				<div class="afterContent">Other content</div>
 			</div>
 		</div>
-		<div class="otherContent"></div>
-		<div class="actions">
-			<button type="button" class="js-reveal">Reveal</button>
-			<button type="button" class="js-hide">Hide</button>
+		<div class="track">
+			<div class="hidingHeader">
+				<div class="hidingHeader-in">
+					<div class="headerContent headerContent-4">
+						Uninitialized header
+					</div>
+				</div>
+			</div>
+			<div class="afterContent">Other content</div>
 		</div>
-		<script type="module">
-			const revealButton = document.querySelector('.js-reveal')
-			const hideButton = document.querySelector('.js-hide')
+	</div>
+	<div class="otherContent"></div>
+	<div class="actions">
+		<button type="button" class="js-reveal">Reveal</button>
+		<button type="button" class="js-hide">Hide</button>
+	</div>
+	<script type="module">
+		const revealButton = document.querySelector('.js-reveal')
+		const hideButton = document.querySelector('.js-hide')
 
-			import('./dist/index.es.js')
-				.catch((error) =>
-					import('https://unpkg.com/hiding-header@latest/dist/index.es.js')
-				)
-				.then((library) => {
-					const { hidingHeader } = library
+		import('./dist/index.es.js')
+			.catch((error) =>
+				import('https://unpkg.com/hiding-header@latest/dist/index.es.js')
+			)
+			.then((library) => {
+				const { hidingHeader } = library
 
-					const containers = document.querySelectorAll('.hidingHeader')
-					containers.forEach((container, i) => {
-						if (i === containers.length - 1) {
-							// Last uninitialized
-							return
-						}
+				const containers = document.querySelectorAll('.hidingHeader')
+				containers.forEach((container, i) => {
+					if (i === containers.length - 1) {
+						// Last uninitialized
+						return
+					}
 
-						const instance = hidingHeader(container)
+					const instance = hidingHeader(container)
 
-						revealButton.addEventListener('click', instance.reveal)
-						hideButton.addEventListener('click', instance.hide)
-					})
+					revealButton.addEventListener('click', instance.reveal)
+					hideButton.addEventListener('click', instance.hide)
 				})
-		</script>
-	</body>
+			})
+	</script>
+</body>
+
 </html>
