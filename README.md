@@ -29,7 +29,7 @@ npm install hiding-header
 
 ### CSS:
 
-Import `dist/style.css` to your CSS. It's few lines of code. You can alternatively copy paste it and adjust things like `z-index` to your needs.
+Import [dist/style.css](src/style.css) to your CSS. It's few lines of code. You can alternatively copy paste it and adjust things like `z-index` to your needs.
 
 ### JavaScript:
 
