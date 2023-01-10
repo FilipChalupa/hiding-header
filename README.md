@@ -81,6 +81,10 @@ instance.isHome() // Returns true if element is at initial position, e.g. user h
 
 For more information see [hiding-header-react](https://www.npmjs.com/package/hiding-header-react).
 
+### SolidJS component
+
+For more information see [@sect/solid-hiding-header](https://www.npmjs.com/package/@sect/solid-hiding-header).
+
 ### Web component
 
 For more information see [hiding-header-webcomponent](https://www.npmjs.com/package/hiding-header-webcomponent).
