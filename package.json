@@ -1,6 +1,6 @@
 {
 	"name": "hiding-header",
-	"version": "0.8.3",
+	"version": "0.8.4",
 	"description": "Toggles header visibility on scroll.",
 	"main": "./dist/index.js",
 	"module": "./dist/index.es.js",
