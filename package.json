@@ -10,7 +10,7 @@
 		"demo": "serve",
 		"dev": "concurrently npm:start npm:demo",
 		"build": "rollup -c",
-		"prepublish": "npm run build"
+		"prepare": "npm run build"
 	},
 	"repository": {
 		"type": "git",
