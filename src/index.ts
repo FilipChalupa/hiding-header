@@ -163,10 +163,12 @@ export function hidingHeader(
 			onTransitioning()
 			requestAnimationFrame(loop)
 		}
+		// @TODO: remove listeners on destroy()
 		content.addEventListener('transitionstart', () => {
 			running = true
 			loop()
 		})
+		// @TODO: remove listeners on destroy()
 		content.addEventListener('transitionend', () => {
 			running = false
 			onTransitioning()
@@ -214,20 +216,29 @@ export function hidingHeader(
 
 	const onResize = onScroll
 
-	document.addEventListener('pointerdown', () => {
+	const onPointerDown = () => {
 		pointersDown++
 		onScroll()
-	})
+	}
 
-	document.addEventListener('pointerup', () => {
+	const onPointerUp = () => {
 		pointersDown--
 		onScroll()
-	})
+	}
 
 	const initialize = () => {
 		window.addEventListener('scroll', onScroll)
 		window.addEventListener('resize', onResize)
+		document.addEventListener('pointerdown', onPointerDown)
+		document.addEventListener('pointerup', onPointerUp)
 		onScroll()
+	}
+
+	const destroy = () => {
+		window.removeEventListener('scroll', onScroll)
+		window.removeEventListener('resize', onResize)
+		document.removeEventListener('pointerdown', onPointerDown)
+		document.removeEventListener('pointerup', onPointerUp)
 	}
 
 	initialize()
@@ -278,5 +289,6 @@ export function hidingHeader(
 		hide,
 		getHeight,
 		getVisibleHeight,
+		destroy,
 	}
 }
