@@ -18,7 +18,7 @@ export function hidingHeader(
 		onHeightChange = () => {},
 		onVisibleHeightChange = () => {},
 		onHomeChange = () => {},
-	}: HidingHeaderOptions = {}
+	}: HidingHeaderOptions = {},
 ) {
 	const content = container.querySelector('*') as HTMLDivElement
 
@@ -77,7 +77,7 @@ export function hidingHeader(
 		content.style.transition = 'none'
 		container.style.setProperty(
 			animationOffsetPropertyName,
-			`${initialOffset}px`
+			`${initialOffset}px`,
 		)
 
 		content.offsetHeight // Trigger transition
@@ -96,7 +96,7 @@ export function hidingHeader(
 	const capBoundsHeight = (rawBoundsHeight: number) =>
 		Math.min(
 			getParentHeight() - getRelativeTopOffset(),
-			Math.max(contentHeight, rawBoundsHeight)
+			Math.max(contentHeight, rawBoundsHeight),
 		)
 
 	const snapIfPossible = () => {
@@ -127,7 +127,7 @@ export function hidingHeader(
 			const { top } = content.getBoundingClientRect()
 			const newVisibleHeight = Math.max(
 				0,
-				Math.min(contentHeight + top, contentHeight)
+				Math.min(contentHeight + top, contentHeight),
 			)
 
 			if (visibleHeight !== newVisibleHeight) {
@@ -199,7 +199,7 @@ export function hidingHeader(
 						}
 						return lastBoundsHeight
 					}
-				})()
+				})(),
 			)
 
 			updateBoundsHeight(boundsHeight)
@@ -260,7 +260,7 @@ export function hidingHeader(
 		const globalTopOffset = getGlobalTopOffset()
 
 		const boundsHeight = capBoundsHeight(
-			scrollTopPosition - globalTopOffset + contentHeight
+			scrollTopPosition - globalTopOffset + contentHeight,
 		)
 
 		animateOffset(lastBoundsHeight - boundsHeight)
