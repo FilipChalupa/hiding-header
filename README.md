@@ -50,6 +50,7 @@ const instance = hidingHeader(container, {
 	heightPropertyName: '--hidingHeader-height',
 	boundsHeightPropertyName: '--hidingHeader-bounds-height',
 	animationOffsetPropertyName: '--hidingHeader-animation-offset',
+	visibleHeightPropertyName: '--hidingHeader-visible-height', // Optional, set on the parent element
 	snap: true, // Reveal or hide header if user stops scrolling in middle
 	onHeightChange: (height: number) => {}, // When content height changes
 	onVisibleHeightChange: (height: number) => {}, // When part of header is revealed
@@ -68,6 +69,33 @@ instance.getHeight() // Returns content height in pixels
 instance.getVisibleHeight() // Returns height of visible content area in pixels
 
 instance.isHome() // Returns true if element is at initial position, e.g. user has not yet scrolled
+```
+
+### Content sticking below the header
+
+Only part of a header hides, and the rest stays pinned? Put the part that hides into the hiding header and the rest after it as a regular sticky element. With `visibleHeightPropertyName` the library keeps the visible height of the header in a CSS property on the parent element, updated while scrolling and during the snap animation, so the sticky part follows right below it:
+
+```html
+<div class="page">
+	<div class="hidingHeader" id="hidingHeader">
+		<div class="hidingHeader-in"><!-- Hides on scroll --></div>
+	</div>
+	<nav class="tabs"><!-- Always stays --></nav>
+	<!-- … -->
+</div>
+```
+
+```css
+.tabs {
+	position: sticky;
+	top: var(--hidingHeader-visible-height, 0px);
+}
+```
+
+```javascript
+hidingHeader(document.querySelector('#hidingHeader'), {
+	visibleHeightPropertyName: '--hidingHeader-visible-height',
+})
 ```
 
 ### React component

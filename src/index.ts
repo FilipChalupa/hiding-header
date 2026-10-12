@@ -2,6 +2,12 @@ export interface HidingHeaderOptions {
 	heightPropertyName?: string
 	boundsHeightPropertyName?: string
 	animationOffsetPropertyName?: string
+	/**
+	 * When set, the visible height of the header is kept in this CSS property
+	 * on the parent element, so content after the header can stick right
+	 * below it, e.g. `top: var(--hidingHeader-visible-height)`.
+	 */
+	visibleHeightPropertyName?: string
 	snap?: boolean
 	onHeightChange?: (height: number) => void
 	onVisibleHeightChange?: (height: number) => void
@@ -14,6 +20,7 @@ export function hidingHeader(
 		heightPropertyName = '--hidingHeader-height',
 		boundsHeightPropertyName = '--hidingHeader-bounds-height',
 		animationOffsetPropertyName = '--hidingHeader-animation-offset',
+		visibleHeightPropertyName,
 		snap = true,
 		onHeightChange = () => {},
 		onVisibleHeightChange = () => {},
@@ -56,6 +63,13 @@ export function hidingHeader(
 	if (parent === null) {
 		throw new Error('Missing parent element.')
 	}
+
+	const setVisibleHeightProperty = (height: number) => {
+		if (visibleHeightPropertyName) {
+			parent.style.setProperty(visibleHeightPropertyName, `${height}px`)
+		}
+	}
+	setVisibleHeightProperty(visibleHeight)
 
 	const getParentHeight = () => {
 		return parent.clientHeight
@@ -131,6 +145,7 @@ export function hidingHeader(
 			)
 
 			if (visibleHeight !== newVisibleHeight) {
+				setVisibleHeightProperty(newVisibleHeight)
 				onVisibleHeightChange(newVisibleHeight)
 			}
 

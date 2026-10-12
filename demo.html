@@ -58,6 +58,13 @@
 				background-color: #e2e2e2dd;
 				padding: 1em;
 			}
+			.pinnedContent {
+				position: sticky;
+				top: var(--hidingHeader-visible-height, 0px);
+				background-color: #4d6fa8;
+				color: #ffffff;
+				padding: 1em;
+			}
 			.otherContent {
 				height: 150vh;
 				border-top: 3px solid #000c27;
@@ -125,6 +132,20 @@
 				<div class="afterContent">Other content</div>
 			</div>
 			<div class="track">
+				<div
+					class="hidingHeader"
+					data-visible-height-property="--hidingHeader-visible-height"
+				>
+					<div class="hidingHeader-in">
+						<div class="headerContent headerContent-1">
+							Header with pinned content
+						</div>
+					</div>
+				</div>
+				<div class="pinnedContent">Pinned right below the header</div>
+				<div class="afterContent">Other content</div>
+			</div>
+			<div class="track">
 				<div class="hidingHeader">
 					<div class="hidingHeader-in">
 						<div class="hidingHeader-content">
@@ -160,7 +181,10 @@
 							return
 						}
 
-						const instance = hidingHeader(container)
+						const instance = hidingHeader(container, {
+							visibleHeightPropertyName:
+								container.dataset.visibleHeightProperty,
+						})
 
 						revealButton.addEventListener('click', instance.reveal)
 						hideButton.addEventListener('click', instance.hide)
